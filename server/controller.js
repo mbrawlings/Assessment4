@@ -1,5 +1,5 @@
 let goals = []
-globalId = 0
+// globalId = 0
 
 module.exports = {
 
@@ -21,17 +21,48 @@ module.exports = {
         res.status(200).send(randomFortune)
     },
     createGoal: (req, res) => {
-        let {goal, description, date} = req.body
+        let {goal, description, date, goalNumber} = req.body
 
         let newGoal = {
-            id: globalId,
             goal,
             description,
-            date
+            date,
+            goalNumber
         }
         goals.push(newGoal)
         res.status(200).send(goals)
-        globalId++
+        // globalId++
+        console.log(goals)
+    },
+    getSuperpower: (req, res) => {
+        let powerArr = ["Superspeed", "Flying", "Time travel", "Teleportation", "Telepathy"]
+
+        let randomIndex1 = Math.floor(Math.random() * powerArr.length)
+        let randomPower = powerArr[randomIndex1]
+
+        res.status(200).send(randomPower)
+    },
+    getGift: (req, res) => {
+        let giftArr = ["A chicken", "$25 gift card", "A new car", "A handful of raspberries", "2 chickens"]
+
+        let randomIndex1 = Math.floor(Math.random() * giftArr.length)
+        let randomGift = giftArr[randomIndex1]
+
+        res.status(200).send(randomGift)
+    },
+    deleteGoal: (req, res) => {
+        // let index = goals.findIndex((goal) => {
+        //     return goal.id === +req.params
+        // })
+        for (let i = 0; i < goals.length; i++) {
+            console.log(goals[i].goalNumber)
+            console.log(`req.param ${+req.params}`)
+            if (+req.params === +goals[i].goalNumber) {
+                goals.splice(goals[i],1)
+            }
+        }
+        // goals.splice(index,1)
+        res.status(200).send(goals)
     }
 
 }
