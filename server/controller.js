@@ -55,6 +55,18 @@ module.exports = {
             }
         }
         res.status(200).send(goals)
+    },
+    backEndCross: (req, res) => {
+        let {crossThisGoal} = req.params
+        for (let i = 0; i < goals.length; i++) {
+            if (+crossThisGoal === +goals[i].goalNumber) {
+                goals[i].goalNumber = goals[i].goalNumber.split('').map(char => char + '\u0336').join('')
+                goals[i].goal = goals[i].goal.split('').map(char => char + '\u0336').join('')
+                goals[i].description = goals[i].description.split('').map(char => char + '\u0336').join('')
+                goals[i].date = goals[i].date.split('').map(char => char + '\u0336').join('')
+            }
+        }
+        res.send(goals)
     }
 
 }

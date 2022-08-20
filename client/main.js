@@ -4,6 +4,7 @@ const formSubmit = document.getElementById("form")
 const deleteSubmit = document.getElementById("deleteForm")
 const superpowerBtn = document.getElementById("superpowerButton")
 const giftBtn = document.getElementById("giftButton")
+const completeBtn = document.getElementById("completeForm")
 
 const getCompliment = () => {
     axios.get("http://localhost:4000/api/compliment/")
@@ -58,7 +59,6 @@ const getGift = () => {
     })
 }
 
-//  couldn't get this to work properly... :(
 function deleteGoal(event) {
     event.preventDefault()
     let deleteThisGoal = document.getElementById('deleteGoal').value
@@ -70,6 +70,19 @@ function deleteGoal(event) {
         printToBrowser(data)
     })
     document.getElementById('deleteGoal').value = ''
+}
+
+function crossOutGoal(event) {
+    event.preventDefault()
+    let crossThisGoal = document.getElementById('completedGoal').value
+    document.getElementById('goal-section').innerHTML = ''
+
+    axios.put(`http://localhost:4000/api/crossOutGoal/${crossThisGoal}`)
+    .then(response => {
+        data = response.data
+        printToBrowser(data)
+    })
+    document.getElementById('completedGoal').value = ''
 }
 
 function printToBrowser(data) {
@@ -86,7 +99,6 @@ function printToBrowser(data) {
         document.getElementById('goal-section').appendChild(loggedGoal)
     }
 }
-// couldn't get this to work properly... :( 
 
 complimentBtn.addEventListener('click', getCompliment)
 fortuneBtn.addEventListener('click', getFortune)
@@ -94,3 +106,4 @@ formSubmit.addEventListener('submit', createGoal)
 superpowerBtn.addEventListener('click', getSuperpower)
 giftBtn.addEventListener('click', getGift)
 deleteSubmit.addEventListener('submit', deleteGoal)
+completeBtn.addEventListener('submit', crossOutGoal)
