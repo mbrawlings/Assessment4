@@ -23,7 +23,7 @@ const getFortune = () => {
 
 function createGoal(event) {
     event.preventDefault()
-    document.getElementById('goal-container').innerHTML = ''
+    document.getElementById('goal-section').innerHTML = ''
     let goalObj = {
         goalNumber: document.getElementById("goalNumber").value,
         goal: document.getElementById("goal").value,
@@ -34,12 +34,12 @@ function createGoal(event) {
     axios.post("http://localhost:4000/api/createGoal/", goalObj)
     .then(response => {
         let data = response.data
-        let str = JSON.stringify(data)
-        const p = document.createElement('p')
-        p.textContent = str
-        document.getElementById('goal-container').appendChild(p)
-        console.log(str)
+        printToBrowser(data)
     }) 
+    document.getElementById("goalNumber").value = ''
+    document.getElementById("goal").value = ''
+    document.getElementById("description").value = ''
+    document.getElementById("date").value = ''
 }
 
 const getSuperpower = () => {
@@ -58,24 +58,35 @@ const getGift = () => {
     })
 }
 
-/* couldn't get this to work properly... :(
-function deleteGoal(id) {
-    // event.preventDefault()
+//  couldn't get this to work properly... :(
+function deleteGoal(event) {
+    event.preventDefault()
     let deleteThisGoal = document.getElementById('deleteGoal').value
-    document.getElementById('goal-container').innerHTML = ''
+    document.getElementById('goal-section').innerHTML = ''
+
     axios.delete(`http://localhost:4000/api/deleteGoal/${deleteThisGoal}`)
     .then(response => {
         let data = response.data
-        console.log('delete')
-        let str = JSON.stringify(data)
-        const p = document.createElement('p')
-        p.textContent = str
-        document.getElementById('goal-container').appendChild(p)
-        console.log(str)
-        console.log('end')
+        printToBrowser(data)
     })
+    document.getElementById('deleteGoal').value = ''
 }
-couldn't get this to work properly... :( */
+
+function printToBrowser(data) {
+    for (let i = 0; i < data.length; i++) {
+        let loggedGoal = document.createElement('p')
+        loggedGoal.innerHTML = `
+        <p>
+        <span>#: ${data[i].goalNumber}</span><br>
+        <span>Goal: ${data[i].goal}</span><br>
+        <span>How: ${data[i].description}</span><br>
+        <span>Achieve by: ${data[i].date}</span>
+        </p>
+        `
+        document.getElementById('goal-section').appendChild(loggedGoal)
+    }
+}
+// couldn't get this to work properly... :( 
 
 complimentBtn.addEventListener('click', getCompliment)
 fortuneBtn.addEventListener('click', getFortune)

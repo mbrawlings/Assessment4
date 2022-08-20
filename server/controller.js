@@ -1,5 +1,4 @@
 let goals = []
-// globalId = 0
 
 module.exports = {
 
@@ -31,8 +30,6 @@ module.exports = {
         }
         goals.push(newGoal)
         res.status(200).send(goals)
-        // globalId++
-        console.log(goals)
     },
     getSuperpower: (req, res) => {
         let powerArr = ["Superspeed", "Flying", "Time travel", "Teleportation", "Telepathy"]
@@ -51,17 +48,12 @@ module.exports = {
         res.status(200).send(randomGift)
     },
     deleteGoal: (req, res) => {
-        // let index = goals.findIndex((goal) => {
-        //     return goal.id === +req.params
-        // })
+        let {deleteThisGoal} = req.params
         for (let i = 0; i < goals.length; i++) {
-            console.log(goals[i].goalNumber)
-            console.log(`req.param ${+req.params}`)
-            if (+req.params === +goals[i].goalNumber) {
-                goals.splice(goals[i],1)
+            if (+deleteThisGoal === +goals[i].goalNumber) {
+                goals.splice(i,1)
             }
         }
-        // goals.splice(index,1)
         res.status(200).send(goals)
     }
 

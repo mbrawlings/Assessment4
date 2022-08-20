@@ -13,6 +13,6 @@ app.get("/api/fortune", getFortune);
 app.post("/api/createGoal/", createGoal);
 app.get("/api/superpower", getSuperpower);
 app.get("/api/gift", getGift);
-app.delete("/api/deleteGoal/:id", deleteGoal);
+app.delete("/api/deleteGoal/:deleteThisGoal", deleteGoal);
 
 app.listen(4000, () => console.log("Server running on 4000"));
